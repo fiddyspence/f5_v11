@@ -1,5 +1,6 @@
 require 'net/https'
 require 'uri'
+require 'json'
 require 'puppet/util/network_device'
 require 'puppet/util/network_device/transport'
 require 'puppet/util/network_device/transport/base'
@@ -29,5 +30,25 @@ class Puppet::Util::NetworkDevice::Transport::Rest < Puppet::Util::NetworkDevice
     response
   rescue Exception => e
     raise Puppet::Error, "Broken in GET: #{e}"
+  end
+
+  def post(path,content)
+    request = Net::HTTP::Post.new(path)
+    request.body = content.to_json
+    request["Content-Type"] = "application/json"
+    request.basic_auth(@username,@password)
+    response = @http.request(request)
+    response
+  rescue Exception => e
+    raise Puppet::Error, "Broken in POST: #{e}"
+  end
+
+  def delete(path)
+    request = Net::HTTP::Delete.new(path)
+    request.basic_auth(@username,@password)
+    response = @http.request(request)
+    response
+  rescue Exception => e
+    raise Puppet::Error, "Broken in DELETE: #{e}"
   end
 end

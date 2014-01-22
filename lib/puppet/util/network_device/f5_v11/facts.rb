@@ -22,7 +22,7 @@ class Puppet::Util::NetworkDevice::F5_v11::Facts
       #we are only going to do the first device in the array, not all
       pre_output['items'].each do |y|
         if y['selfDevice'] == 'true'
-          @facts["name"] = y['name']
+          @facts["device_name"] = y['name']
           @facts["hostname"] =  y['hostname']
           @facts["ipaddress"] = y['managementIp']
           @facts["version"] = y['version']

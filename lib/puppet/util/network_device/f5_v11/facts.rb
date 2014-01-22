@@ -32,11 +32,13 @@ module Puppet::Util::NetworkDevice::F5_v11::Facts
       #we are only going to do the first device in the array, not all
       @facts = {}
       output['items'].each do |x|
-        @facts["name_#{x['name']}"] = x['name']
-        @facts["hostname_#{x['name']}"] = x['hostname']
-        @facts["ipaddress_#{x['name']}"] = x['managementIp']
-        @facts["version_#{x['name']}"] = x['version']
-        @facts["base_mac_address_#{x['name']}"] = x['baseMac']
+      if y['selfDevice'] == 'true'
+        @facts["name"] = y['name']
+        @facts["hostname"] =  y['hostname']
+        @facts["ipaddress"] = y['managementIp']
+        @facts["version"] = y['version']
+        @facts["base_mac_address"] = y['baseMac']
+        @facts["platformId"] = y['platformId']
       end
       disk_request = Net::HTTP::Get.new('/mgmt/tm/sys/disk/logical-disk')
       disk_request.basic_auth(:username,:password)

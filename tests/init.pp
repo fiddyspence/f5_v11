@@ -9,9 +9,9 @@
 # Learn more about module testing here:
 # http://docs.puppetlabs.com/guides/tests_smoke.html
 #
-#include f5_v11
+#include f5v11
 
-f5_v11::config {'test':
+f5v11::config {'test':
   username => 'admin',
   password => 'admin',
   url      => '192.168.62.161',

@@ -35,7 +35,7 @@
 #
 # Copyright 2014 Your name here, unless otherwise noted.
 #
-class f5_v11 {
+class f5v11 {
 
 
 }

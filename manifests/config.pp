@@ -24,12 +24,12 @@
 #    target    => '/etc/puppetlabs/puppet/device/bigip.conf
 #  }
 #
-define f5_v11::config(
+define f5v11::config(
   $username = 'admin',
+  $partition = 'Common',
   $password,
   $url,
-  $partition = 'Common',
-  $target
+  $target,
 ) {
 
   file { $target:
@@ -37,7 +37,7 @@ define f5_v11::config(
     owner  => 'pe-puppet',
     group  => 'pe-puppet',
     mode   => '0644',
-    content => template('f5_v11/config.erb'),
+    content => template('f5v11/config.erb'),
   }
 
 }

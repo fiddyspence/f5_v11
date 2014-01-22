@@ -24,7 +24,7 @@
 #    target    => '/etc/puppetlabs/puppet/device/bigip.conf
 #  }
 #
-define f5v11::config(
+define f5_v11::config(
   $username = 'admin',
   $partition = 'Common',
   $target = "${puppet_vardir}/.${title}_bigip",

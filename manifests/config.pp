@@ -41,7 +41,7 @@ define f5_v11::config(
     owner  => 'pe-puppet',
     group  => 'pe-puppet',
     mode   => '0644',
-    content => template('f5v11/config.erb'),
+    content => template('f5_v11/config.erb'),
   }
 
 }

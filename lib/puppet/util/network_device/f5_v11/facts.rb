@@ -1,32 +1,20 @@
-require 'net/https'
-require 'uri'
 require 'json'
 require 'puppet'
+require 'puppet/util/network_device/transport'
+require 'puppet/util/network_device/transport/rest'
 
 class Puppet::Util::NetworkDevice::F5_v11::Facts
 
-  attr_accessor :username, :password, :host, :url
+  attr_accessor :transport
 
-  def initialize(url)
-    @url = url
+  def initialize(transport)
+    @transport = transport
   end
 
   def retrieve
     @facts = {}
-    @username = url.user
-    @password = url.password
-    @host = url.host
-    uri = URI.parse("https://#{host}")
-
-    #new http connection and let's make it ssl
-    http = Net::HTTP.new(uri.host,uri.port)
-    http.use_ssl = true
-    http.verify_mode = OpenSSL::SSL::VERIFY_NONE
-
     #new GET command
-    request = Net::HTTP::Get.new('/mgmt/tm/cm/device')
-    request.basic_auth(username,password)
-    response = http.request(request)
+    response = @transport.get('/mgmt/tm/cm/device')
     if response.code == '200'
       pre_output = JSON.parse(response.body)
 
@@ -42,10 +30,7 @@ class Puppet::Util::NetworkDevice::F5_v11::Facts
           @facts["platformId"] = y['platformId']
         end
       end
-      disk_request = Net::HTTP::Get.new('/mgmt/tm/sys/disk/logical-disk')
-      disk_request.basic_auth(username,password)
-      disk_response = http.request(disk_request)
-      puts disk_response.code
+      disk_response = @transport.get('/mgmt/tm/sys/disk/logical-disk')
       if disk_response.code == '200'
         disk_output = JSON.parse(disk_response.body)
         disk_output['items'].each do |y|
@@ -53,11 +38,11 @@ class Puppet::Util::NetworkDevice::F5_v11::Facts
           @facts["disk_free_#{y['name']}"] = y['vgFree']
         end
       end
-      puts @facts
+      @facts
     else
-      puts "20 degrees bow up, ahead revolutions 115, emergency surface the submarine!"
+      raise Puppet::Error, "We have some broken stuff: #{e}"
     end
   rescue Exception => e
-    puts "Shit is broken mate, best you fix it: #{e}"
+    raise Puppet::Error, "Shit is broken mate, best you fix it: #{e}"
   end
 end

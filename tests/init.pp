@@ -15,5 +15,5 @@ f5_v11::config {'test':
   username => 'admin',
   password => 'admin',
   url      => '192.168.62.161',
-  target   => '/etc/puppetlabs/puppet/device/test',
+  target   => '/etc/puppetlabs/puppet/device.conf',
 }

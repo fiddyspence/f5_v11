@@ -15,7 +15,7 @@ class Puppet::Util::NetworkDevice::F5_v11::Device
   end
 
   def facts
-    @facts ||= Puppet::Util::NetworkDevice::F5_v11::Facts.new(transport)
+    @facts ||= Puppet::Util::NetworkDevice::F5_v11::Facts.new(url)
     facts = {}
     #command do |ng|
       facts = @facts.retrieve

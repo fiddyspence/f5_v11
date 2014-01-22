@@ -3,7 +3,7 @@ require 'uri'
 require 'json'
 require 'puppet'
 
-module Puppet::Util::NetworkDevice::F5v11::Facts
+class Puppet::Util::NetworkDevice::F5v11::Facts
 
   attr_accessor :username, :password, :host
 

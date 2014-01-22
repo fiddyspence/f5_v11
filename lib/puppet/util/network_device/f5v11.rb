@@ -3,5 +3,6 @@
 
 module Puppet::Util::NetworkDevice::F5v11
 
+  puts "Inside the module"
 
 end

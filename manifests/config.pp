@@ -26,8 +26,8 @@
 #
 define f5_v11::config(
   $username = 'admin',
-  $partition = "${puppet_vardir}/.bigip"
-  $target = '/root/.bigip',
+  $partition = 'Common',
+  $target = "${puppet_vardir}/.${title}_bigip",
   $password,
   $url,
 ) {

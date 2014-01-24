@@ -26,11 +26,15 @@
 #
 define f5_v11::config(
   $username = 'admin',
+  $partition = "${puppet_vardir}/.bigip"
+  $target = '/root/.bigip',
   $password,
   $url,
-  $partition = 'Common',
-  $target
 ) {
+
+  if $url =~ /^https:/ {
+    fail('did we not say no https URLs?')
+  }
 
   file { $target:
     ensure => present,

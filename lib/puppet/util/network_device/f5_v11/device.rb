@@ -1,4 +1,8 @@
 require 'uri'
+require 'puppet'
+require 'puppet/util'
+require 'puppet/util/network_device/base'
+require 'puppet/util/network_device/f5_v11'
 require 'puppet/util/network_device/f5_v11/facts'
 
 class Puppet::Util::NetworkDevice::F5_v11::Device

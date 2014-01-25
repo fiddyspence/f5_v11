@@ -14,5 +14,14 @@ class Puppet::Util::NetworkDevice::F5_v11::Device
     @option = option
   end
 
+  def facts
+    @facts ||= Puppet::Util::NetworkDevice::F5_v11::Facts.new(transport)
+    facts = {}
+    command do |ng|
+      facts = @facts.retrieve
+    end
+    facts
+  end
+
 
 end

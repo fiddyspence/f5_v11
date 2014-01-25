@@ -3,9 +3,13 @@ require 'uri'
 require 'json'
 require 'puppet'
 
-module Puppet::Util::NetworkDevice::F5_v11::Facts
+class Puppet::Util::NetworkDevice::F5_v11::Facts
 
   attr_accessor :username, :password, :host
+
+  def initialize(transport)
+    @transport = transport
+  end
 
   def self.retrieve
     @facts = {}

@@ -11,7 +11,7 @@ class Puppet::Util::NetworkDevice::F5_v11::Facts
     @transport = transport
   end
 
-  def self.retrieve
+  def retrieve
     @facts = {}
 
     if ! host.gsub(/https/)

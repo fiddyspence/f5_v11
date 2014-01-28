@@ -3,9 +3,6 @@ require 'puppet/provider/f5_v11'
 Puppet::Type.type(:f5_v11_vlan).provide(:f5_v11_vlan, :parent => Puppet::Provider::F5_v11) do
   @doc = "Manages f5 v11 vlan"
 
-
-
-
   def self.instances
     response = transport.get('/mgmt/tm/net/vlan')
     instances = []
@@ -15,7 +12,10 @@ Puppet::Type.type(:f5_v11_vlan).provide(:f5_v11_vlan, :parent => Puppet::Provide
       Puppet.debug "#{pre_output}"
       unless pre_output['currentItemCount'] == 0
         pre_output['items'].each do |item|
-          instances << new(:ensure => :present, :name => item['name'])
+          instance = Hash[item.collect { |k,v| [k.to_sym ,v.to_s] } ]
+          Puppet.debug instance
+          instance[:ensure] = :present
+          instances << new( instance )
         end
       end
     end
@@ -33,14 +33,6 @@ Puppet::Type.type(:f5_v11_vlan).provide(:f5_v11_vlan, :parent => Puppet::Provide
   def exists?
     @property_hash[:ensure] == :present
   end
-#  def exists?
-#    response = transport.get("/mgmt/tm/net/vlan/#{resource[:name]}")
-#    if response.code == '200'
-#      true
-#    else
-#      false
-#    end
-#  end
 
   def create
     response = transport.post("/mgmt/tm/net/vlan",{"name" => "#{resource[:name]}"})
@@ -58,6 +50,14 @@ Puppet::Type.type(:f5_v11_vlan).provide(:f5_v11_vlan, :parent => Puppet::Provide
     else
       false
     end
+  end
+
+  def tag 
+    @property_hash[:tag]
+  end
+
+  def tag=(tag)
+    true
   end
 
 end

@@ -15,7 +15,7 @@ class Puppet::Util::NetworkDevice::F5_v11::Facts
     @facts = {}
     #new GET command
     response = @transport.get('/mgmt/tm/cm/device')
-    if response.code == '200'
+    if response.kind_of?(Net::HTTPSuccess)
       pre_output = JSON.parse(response.body)
 
       #format and find
@@ -38,11 +38,9 @@ class Puppet::Util::NetworkDevice::F5_v11::Facts
           @facts["disk_free_#{y['name']}"] = y['vgFree']
         end
       end
-      @facts
     else
-      raise Puppet::Error, "We have some broken stuff: #{e}"
+      raise Puppet::Error, "The F5 responded with #{response.code}"
     end
-  rescue Exception => e
-    raise Puppet::Error, "Shit is broken mate, best you fix it: #{e}"
+    @facts 
   end
 end

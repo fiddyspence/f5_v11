@@ -26,15 +26,20 @@ Puppet::Type.type(:f5_v11_vlan).provide(:f5_v11_vlan, :parent => Puppet::Provide
 
   def create
     response = transport.post("/mgmt/tm/net/vlan",{"name" => "#{resource[:name]}"})
-    if ! response.code == '200'
-      raise Puppet::Error, "Failed to create new resource"
+    if response.code == '200'
+      true
+    else
+      false
     end
   end
 
   def destroy
     response = transport.delete("/mgmt/tm/net/vlan/#{resource[:name]}")
-    if ! response.code == '200'
-      raise Puppet::Error, "Failed to delete resource"
+    if response.code == '200'
+      true
+    else
+      false
     end
   end
+
 end

@@ -3,21 +3,10 @@ Puppet::Type.newtype(:f5_v11_vlan) do
 
   apply_to_device
 
-  ensurable do
-    desc "F5 vlan resource state. Valid values are present, absent."
-
-    defaultto(:present)
-
-    newvalue(:present) do
-      provider.create
-    end
-
-    newvalue(:absent) do
-      provider.destroy
-    end
-  end
+  ensurable
 
   newparam(:name, :namevar=>true) do
     desc "The vlan name."
   end
+
 end
